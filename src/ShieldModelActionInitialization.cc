@@ -24,41 +24,47 @@
 // ********************************************************************
 //
 //
-/// \file B1EventAction.cc
-/// \brief Implementation of the B1EventAction class
+/// \file ShieldModelActionInitialization.cc
+/// \brief Implementation of the ShieldModelActionInitialization class
 
-#include "B1EventAction.hh"
-#include "B1RunAction.hh"
-
-#include "G4Event.hh"
-#include "G4RunManager.hh"
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-B1EventAction::B1EventAction(B1RunAction* runAction)
-: G4UserEventAction(),
-  fRunAction(runAction),
-  fEdep(0.)
-{} 
+#include "ShieldModelActionInitialization.hh"
+#include "ShieldModelPrimaryGeneratorAction.hh"
+#include "ShieldModelRunAction.hh"
+#include "ShieldModelEventAction.hh"
+#include "ShieldModelSteppingAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1EventAction::~B1EventAction()
+ShieldModelActionInitialization::ShieldModelActionInitialization()
+ : G4VUserActionInitialization()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B1EventAction::BeginOfEventAction(const G4Event*)
-{    
-  fEdep = 0.;
+ShieldModelActionInitialization::~ShieldModelActionInitialization()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void ShieldModelActionInitialization::BuildForMaster() const
+{
+  ShieldModelRunAction* runAction = new ShieldModelRunAction;
+  SetUserAction(runAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B1EventAction::EndOfEventAction(const G4Event*)
-{   
-  // accumulate statistics in run action
-  fRunAction->AddEdep(fEdep);
-}
+void ShieldModelActionInitialization::Build() const
+{
+  SetUserAction(new ShieldModelPrimaryGeneratorAction);
+
+  ShieldModelRunAction* runAction = new ShieldModelRunAction;
+  SetUserAction(runAction);
+  
+  ShieldModelEventAction* eventAction = new ShieldModelEventAction(runAction);
+  SetUserAction(eventAction);
+  
+  SetUserAction(new ShieldModelSteppingAction(eventAction));
+}  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

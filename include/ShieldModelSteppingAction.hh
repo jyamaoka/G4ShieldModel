@@ -24,28 +24,36 @@
 // ********************************************************************
 //
 //
-/// \file B1ActionInitialization.hh
-/// \brief Definition of the B1ActionInitialization class
+/// \file ShieldModelSteppingAction.hh
+/// \brief Definition of the ShieldModelSteppingAction class
 
-#ifndef B1ActionInitialization_h
-#define B1ActionInitialization_h 1
+#ifndef ShieldModelSteppingAction_h
+#define ShieldModelSteppingAction_h 1
 
-#include "G4VUserActionInitialization.hh"
+#include "G4UserSteppingAction.hh"
+#include "globals.hh"
 
-/// Action initialization class.
+class ShieldModelEventAction;
 
-class B1ActionInitialization : public G4VUserActionInitialization
+class G4LogicalVolume;
+
+/// Stepping action class
+/// 
+
+class ShieldModelSteppingAction : public G4UserSteppingAction
 {
   public:
-    B1ActionInitialization();
-    virtual ~B1ActionInitialization();
+    ShieldModelSteppingAction(ShieldModelEventAction* eventAction);
+    virtual ~ShieldModelSteppingAction();
 
-    virtual void BuildForMaster() const;
-    virtual void Build() const;
+    // method from the base class
+    virtual void UserSteppingAction(const G4Step*);
+
+  private:
+    ShieldModelEventAction*  fEventAction;
+    G4LogicalVolume* fScoringVolume;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
-    

@@ -24,25 +24,25 @@
 // ********************************************************************
 //
 //
-/// \file B1EventAction.hh
-/// \brief Definition of the B1EventAction class
+/// \file ShieldModelEventAction.hh
+/// \brief Definition of the ShieldModelEventAction class
 
-#ifndef B1EventAction_h
-#define B1EventAction_h 1
+#ifndef ShieldModelEventAction_h
+#define ShieldModelEventAction_h 1
 
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 
-class B1RunAction;
+class ShieldModelRunAction;
 
 /// Event action class
 ///
 
-class B1EventAction : public G4UserEventAction
+class ShieldModelEventAction : public G4UserEventAction
 {
   public:
-    B1EventAction(B1RunAction* runAction);
-    virtual ~B1EventAction();
+    ShieldModelEventAction(ShieldModelRunAction* runAction);
+    virtual ~ShieldModelEventAction();
 
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
@@ -50,7 +50,7 @@ class B1EventAction : public G4UserEventAction
     void AddEdep(G4double edep) { fEdep += edep; }
 
   private:
-    B1RunAction* fRunAction;
+    ShieldModelRunAction* fRunAction;
     G4double     fEdep;
 };
 

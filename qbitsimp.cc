@@ -25,10 +25,10 @@
 //
 //
 /// \file qbitsimp.cc
-/// \brief Main program of the B1 example
+/// \brief Main program of the ShieldModel example
 
-#include "B1DetectorConstruction.hh"
-#include "B1ActionInitialization.hh"
+#include "ShieldModelDetectorConstruction.hh"
+#include "ShieldModelActionInitialization.hh"
 
 #include "G4RunManagerFactory.hh"
 
@@ -67,7 +67,7 @@ int main(int argc,char** argv)
   // Set mandatory initialization classes
   //
   // Detector construction
-  runManager->SetUserInitialization(new B1DetectorConstruction());
+  runManager->SetUserInitialization(new ShieldModelDetectorConstruction());
 
   // Physics list
   G4VModularPhysicsList* physicsList = new QBBC;
@@ -79,7 +79,7 @@ int main(int argc,char** argv)
 
 
   // User action initialization
-  runManager->SetUserInitialization(new B1ActionInitialization());
+  runManager->SetUserInitialization(new ShieldModelActionInitialization());
   
   // Initialize visualization
   //
